@@ -52,89 +52,106 @@ int main() {
 
     numeroCarta = 1; // Começando a numeração das cartas a partir de 1
 
-    do {
-        // Começando o cadastro de uma nova carta
-        printf("===== Cadastro da Carta %d =====\n", numeroCarta);
+    int opcao;
+    int jogoRodando = 1;
 
-        // Coletando os dados da cidade
-        printf("Digite o estado da cidade (Exemplo: A, B, C): ");
-        scanf(" %c", &estado);
+    while (jogoRodando) {
+        // Exibindo o menu
+        printf("\n===== Menu =====\n");
+        printf("1 - Cadastrar uma nova carta\n");
+        printf("2 - Comparar as cartas\n");
+        printf("3 - Sair do jogo\n");
+        printf("Escolha uma opção (1-3): ");
+        scanf("%d", &opcao);
 
-        printf("Digite o código da cidade (Exemplo: A01, B02, C03): ");
-        scanf("%s", codigo);
+        switch (opcao) {
+            case 1:
+                // Cadastro de uma nova carta
+                printf("\n===== Cadastro da Carta %d =====\n", numeroCarta);
 
-        printf("Digite o nome da cidade: ");
-        scanf(" %[^\n]", nome);
+                // Coletando os dados da cidade
+                printf("Digite o estado da cidade (Exemplo: A, B, C): ");
+                scanf(" %c", &estado);
 
-        printf("Digite a população da cidade: ");
-        scanf("%d", &populacao);
+                printf("Digite o código da cidade (Exemplo: A01, B02, C03): ");
+                scanf("%s", codigo);
 
-        printf("Digite a área da cidade (em Km²): ");
-        scanf("%f", &area);
+                printf("Digite o nome da cidade: ");
+                scanf(" %[^\n]", nome);
 
-        printf("Digite o PIB da cidade (em bilhões de reais): ");
-        scanf("%f", &pib);
+                printf("Digite a população da cidade: ");
+                scanf("%d", &populacao);
 
-        printf("Digite a quantidade de pontos turísticos da cidade: ");
-        scanf("%d", &pontosTuristicos);
+                printf("Digite a área da cidade (em Km²): ");
+                scanf("%f", &area);
 
-        // Calculando a densidade populacional corretamente
-        float densidadePopulacional = (float) populacao / area;
-        float pibPerCapita = pib * 1000000000 / populacao; // PIB per capita em reais
+                printf("Digite o PIB da cidade (em bilhões de reais): ");
+                scanf("%f", &pib);
 
-        // Calculando o "Super Poder" da carta
-        float superPoder = calcularSuperPoder(populacao, area, pib, pontosTuristicos, densidadePopulacional, pibPerCapita);
+                printf("Digite a quantidade de pontos turísticos da cidade: ");
+                scanf("%d", &pontosTuristicos);
 
-        // Armazenando os valores nos arrays
-        superPoderes[numCartas] = superPoder;
-        densidades[numCartas] = densidadePopulacional;
-        numCartas++;
+                // Calculando a densidade populacional corretamente
+                float densidadePopulacional = (float) populacao / area;
+                float pibPerCapita = pib * 1000000000 / populacao; // PIB per capita em reais
 
-        // Exibindo as informações da carta cadastrada
-        printf("\n===== Carta %d =====\n", numeroCarta);
-        printf("Estado: %c\n", estado);
-        printf("Código: %s\n", codigo);
-        printf("Nome da Cidade: %s\n", nome);
-        printf("População: %d habitantes\n", populacao);
-        printf("Área: %.2f km²\n", area);
-        printf("PIB: %.2f bilhões de reais\n", pib);
-        printf("Número de Pontos Turísticos: %d\n", pontosTuristicos);
-        printf("Densidade Populacional: %.2f habitantes/km²\n", densidadePopulacional);
-        printf("PIB per Capita: %.2f reais\n", pibPerCapita);
-        printf("Super Poder: %.2f\n", superPoder);
+                // Calculando o "Super Poder" da carta
+                float superPoder = calcularSuperPoder(populacao, area, pib, pontosTuristicos, densidadePopulacional, pibPerCapita);
 
-        // Determinando a classificação da cidade pela população
-        if (populacao < 100000) {
-            printf("Classificação: Cidade Pequena\n");
-        } else if (populacao >= 100000 && populacao <= 1000000) {
-            printf("Classificação: Cidade Média\n");
-        } else if (populacao > 1000000) {
-            printf("Classificação: Cidade Grande\n");
+                // Armazenando os valores nos arrays
+                superPoderes[numCartas] = superPoder;
+                densidades[numCartas] = densidadePopulacional;
+                numCartas++;
+
+                // Exibindo as informações da carta cadastrada
+                printf("\n===== Carta %d =====\n", numeroCarta);
+                printf("Estado: %c\n", estado);
+                printf("Código: %s\n", codigo);
+                printf("Nome da Cidade: %s\n", nome);
+                printf("População: %d habitantes\n", populacao);
+                printf("Área: %.2f km²\n", area);
+                printf("PIB: %.2f bilhões de reais\n", pib);
+                printf("Número de Pontos Turísticos: %d\n", pontosTuristicos);
+                printf("Densidade Populacional: %.2f habitantes/km²\n", densidadePopulacional);
+                printf("PIB per Capita: %.2f reais\n", pibPerCapita);
+                printf("Super Poder: %.2f\n", superPoder);
+
+                // Determinando a classificação da cidade pela população
+                if (populacao < 100000) {
+                    printf("Classificação: Cidade Pequena\n");
+                } else if (populacao >= 100000 && populacao <= 1000000) {
+                    printf("Classificação: Cidade Média\n");
+                } else if (populacao > 1000000) {
+                    printf("Classificação: Cidade Grande\n");
+                }
+
+                printf("============================\n\n");
+
+                numeroCarta++;
+                break;
+
+            case 2:
+                // Verificando se há cartas suficientes para comparar
+                if (numCartas >= 2) {
+                    printf("\n===== Comparação de Cartas =====\n");
+                    printf("Comparando Carta 1 e Carta 2...\n");
+                    compararCartas(superPoderes[0], superPoderes[1], densidades[0], densidades[1]);  // Comparação entre a Carta 1 e a Carta 2
+                } else {
+                    printf("Não há cartas suficientes para comparar.\n");
+                }
+                break;
+
+            case 3:
+                // Finalizando o jogo
+                printf("Jogo finalizado. Obrigado por jogar!\n");
+                jogoRodando = 0;
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
         }
-
-        printf("============================\n\n");
-
-        // Pergunta se o jogador quer continuar cadastrando mais cartas
-        printf("Deseja cadastrar outra carta? (Sim/Não): ");
-        scanf(" %[^\n]", continuar);
-        printf("\n");
-
-        // Incrementando mais um no número da carta
-        numeroCarta++;
-
-    } while (continuar[0] == 'S' || continuar[0] == 's'); // Continuar se a resposta for 'S' ou 's'
-
-    // Verificando se há pelo menos 2 cartas cadastradas para poder fazer a comparação
-    if (numCartas >= 2) {
-        printf("\n===== Comparação de Cartas =====\n");
-        printf("Comparando Carta 1 e Carta 2...\n");
-        compararCartas(superPoderes[0], superPoderes[1], densidades[0], densidades[1]);  // Comparação entre a Carta 1 e a Carta 2
-    } else {
-        printf("Não há cartas suficientes para comparar.\n");
     }
-
-    // Finalizando o jogo
-    printf("Jogo finalizado. Obrigado por jogar!\n");
 
     return 0;
 }
